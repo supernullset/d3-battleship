@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.handle_click = handle_click;
+exports.place_ship = place_ship;
 exports.assign_ship_placement = assign_ship_placement;
 exports.build_board = build_board;
 function handle_click(element, hit_boxes) {
@@ -21,6 +22,122 @@ function handle_click(element, hit_boxes) {
     cell.style("fill", status_color);
 }
 
+function place_ship(ship, occupied) {
+    var ship_placed = false;
+    var ship_length = ship[0];
+    var bad_canidates = [];
+    var vertical = false;
+    var r = Math.round(Math.random() * 10);
+
+    var is_viable_point = function is_viable_point(x, y) {
+        var point = [x, y].toString();
+        return occupied.indexOf(point) == -1 && bad_canidates.indexOf(point) == -1;
+    };
+
+    if (r <= 5) {
+        vertical = true;
+    }
+
+    while (ship_placed == false) {
+        var start_x = Math.round(Math.random() * 9);
+        var start_y = Math.round(Math.random() * 9);
+
+        // if the guess cell is occupied, try again
+        if (!is_viable_point(start_x, start_y)) {
+            break;
+        }
+
+        var placement_direction = undefined;
+        var _r = Math.round(Math.random() * 9);
+
+        // Search for canidates for placing a ship
+        if (vertical) {
+            // Account for vertical placement
+            if (start_x + ship_length > 9) {
+                break;
+            } else {
+                var is_placeable = true;
+                for (var i = 0; i < ship_length; i++) {
+                    if (!is_viable_point(start_x + i, start_y)) {
+                        is_placeable = false;
+                    }
+                }
+                if (is_placeable == false) {
+
+                    continue;
+                } else {
+                    for (var i = 0; i < ship_length; i++) {
+                        var cell = [start_x + i, start_y].toString();
+                        occupied.push(cell);
+                    }
+                    ship_placed = true;
+                }
+            }
+
+            if (start_x - ship_length < 0) {
+                break;
+            } else {
+                var is_placeable = true;
+                for (var i = 0; i < ship_length; i++) {
+                    if (!is_viable_point(start_x - i, start_y)) {
+                        is_placeable = false;
+                    }
+                }
+                if (is_placeable == false) {
+                    break;
+                } else {
+                    for (var i = 0; i < ship_length; i++) {
+                        var cell = [start_x - i, start_y].toString();
+                        occupied.push(cell);
+                    }
+                    ship_placed = true;
+                }
+            }
+        } else {
+            if (start_y + ship_length > 9) {
+                break;
+            } else {
+                var is_placeable = true;
+                for (var i = 0; i < ship_length; i++) {
+                    if (!is_viable_point(start_x, start_y + i)) {
+                        is_placeable = false;
+                    }
+                }
+                if (is_placeable == false) {
+                    continue;
+                } else {
+                    for (var i = 0; i < ship_length; i++) {
+                        var cell = [start_x, start_y + i].toString();
+                        occupied.push(cell);
+                    }
+                    ship_placed = true;
+                }
+            }
+
+            if (start_y - ship_length < 0) {
+                break;
+            } else {
+                var is_placeable = true;
+                for (var i = 0; i < ship_length; i++) {
+                    if (is_viable_point(start_x, start_y - i)) {
+                        is_placeable = false;
+                    }
+                }
+                if (is_placeable == false) {
+                    break;
+                } else {
+                    for (var i = 0; i < ship_length; i++) {
+                        var cell = [start_x, start_y - i].toString();
+                        occupied.push(cell);
+                    }
+                    ship_placed = true;
+                }
+            }
+        }
+    }
+    return;
+}
+
 function assign_ship_placement(gridSize) {
 
     //assume initial state is horizontal
@@ -33,27 +150,12 @@ function assign_ship_placement(gridSize) {
     var is_horizontal = function is_horizontal(ship) {
         return !is_vertical(ship);
     };
-    var transpose_ship = function transpose_ship(ship) {
-        return ship.reverse();
-    };
-
-    function has_space_for_ship(point, ship_dimensions, occupied) {}
 
     ship_dimensions.forEach(function (ship) {
-        var r = Math.round(Math.random() * 10);
-        if (r <= 5) {
-            console.log("horizontal");
-            console.log(is_horizontal(ship));
-        } else {
-            console.log("vertical");
-            console.log(transpose_ship(ship));
-            console.log(is_vertical(transpose_ship(ship)));
-        }
+        place_ship(ship, occupied);
     });
 
-    return [[5, 3], [5, 4], [5, 5]].map(function (e) {
-        return e.toString();
-    });
+    return occupied; //[[5,3], [5,4], [5,5]].map((e) => e.toString())
 }
 
 function build_board(targetId, gridSize) {
