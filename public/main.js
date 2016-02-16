@@ -4,9 +4,17 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = build_board;
+exports.handle_click = handle_click;
+exports.build_board = build_board;
+function handle_click(element) {
+    var cell = d3.select(this);
+    cell.style("fill", "#CC3300");
+    console.log(element);
+}
+
 function build_board(targetId, gridSize) {
     var gridDefinition = [];
+    var order = 0;
     for (var yOrigin = 0, i = 0; i < gridSize; i++) {
         for (var xOrigin = 0, j = 0; j < gridSize; j++) {
             gridDefinition.push({
@@ -15,11 +23,13 @@ function build_board(targetId, gridSize) {
                 width: 50,
                 height: 50,
                 index: [i, j],
-                order: i + j
+                order: order
             });
             xOrigin++;
+            order++;
         }
         yOrigin++;
+        order++;
     }
 
     var canvas = d3.select(targetId).append("svg").attr("width", 500).attr("height", 500);
@@ -36,8 +46,8 @@ function build_board(targetId, gridSize) {
         return d.height;
     }).attr("index", function (d) {
         return d.index;
-    }).on('click', function () {
-        d3.select(this).style("fill", "#CC3300");
+    }).on('click', function (d) {
+        return handle_click(d);
     }).style("fill", '#FFF').style("stroke", '#555');
 }
 
