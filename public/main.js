@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.handle_click = handle_click;
+exports.assign_ship_placement = assign_ship_placement;
 exports.build_board = build_board;
 function handle_click(element, hit_boxes) {
     var status_color = undefined;
@@ -20,11 +21,44 @@ function handle_click(element, hit_boxes) {
     cell.style("fill", status_color);
 }
 
-function build_board(targetId, gridSize) {
-    var gridDefinition = [];
-    var hit_boxes = [[5, 3], [5, 4], [5, 5]].map(function (e) {
+function assign_ship_placement(gridSize) {
+
+    //assume initial state is horizontal
+    var ship_dimensions = [[5, 1], [4, 1], [3, 1], [3, 1], [3, 1]];
+    var occupied = [];
+
+    var is_vertical = function is_vertical(ship) {
+        return ship[0] == 1;
+    };
+    var is_horizontal = function is_horizontal(ship) {
+        return !is_vertical(ship);
+    };
+    var transpose_ship = function transpose_ship(ship) {
+        return ship.reverse();
+    };
+
+    function has_space_for_ship(point, ship_dimensions, occupied) {}
+
+    ship_dimensions.forEach(function (ship) {
+        var r = Math.round(Math.random() * 10);
+        if (r <= 5) {
+            console.log("horizontal");
+            console.log(is_horizontal(ship));
+        } else {
+            console.log("vertical");
+            console.log(transpose_ship(ship));
+            console.log(is_vertical(transpose_ship(ship)));
+        }
+    });
+
+    return [[5, 3], [5, 4], [5, 5]].map(function (e) {
         return e.toString();
     });
+}
+
+function build_board(targetId, gridSize) {
+    var gridDefinition = [];
+    var hit_boxes = assign_ship_placement(gridSize);
     var order = 0;
     for (var yOrigin = 0, i = 0; i < gridSize; i++) {
         for (var xOrigin = 0, j = 0; j < gridSize; j++) {
