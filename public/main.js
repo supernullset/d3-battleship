@@ -6,14 +6,25 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.handle_click = handle_click;
 exports.build_board = build_board;
-function handle_click(element) {
-    var cell = d3.select(this);
-    cell.style("fill", "#CC3300");
-    console.log(element);
+function handle_click(element, hit_boxes) {
+    var status_color = undefined;
+    var hit_color = "#75AF1D";
+    var miss_color = "#CC3300";
+    var cell = d3.select(element);
+
+    if (hit_boxes.indexOf(cell.attr("index")) != -1) {
+        status_color = hit_color;
+    } else {
+        status_color = miss_color;
+    }
+    cell.style("fill", status_color);
 }
 
 function build_board(targetId, gridSize) {
     var gridDefinition = [];
+    var hit_boxes = [[5, 3], [5, 4], [5, 5]].map(function (e) {
+        return e.toString();
+    });
     var order = 0;
     for (var yOrigin = 0, i = 0; i < gridSize; i++) {
         for (var xOrigin = 0, j = 0; j < gridSize; j++) {
@@ -22,7 +33,7 @@ function build_board(targetId, gridSize) {
                 y: yOrigin * 50,
                 width: 50,
                 height: 50,
-                index: [i, j],
+                index: [i, j].toString(),
                 order: order
             });
             xOrigin++;
@@ -46,8 +57,8 @@ function build_board(targetId, gridSize) {
         return d.height;
     }).attr("index", function (d) {
         return d.index;
-    }).on('click', function (d) {
-        return handle_click(d);
+    }).on('click', function () {
+        handle_click(this, hit_boxes);
     }).style("fill", '#FFF').style("stroke", '#555');
 }
 
