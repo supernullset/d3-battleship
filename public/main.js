@@ -137,10 +137,9 @@ function assign_ship_placement(gridSize) {
 
     ship_dimensions.forEach(function (ship) {
         place_ship(ship, occupied);
-        console.log(ship, occupied.length);
     });
 
-    return occupied; //[[5,3], [5,4], [5,5]].map((e) => e.toString())
+    return occupied;
 }
 
 function build_board(targetId, gridSize) {
