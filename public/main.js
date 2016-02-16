@@ -14,7 +14,8 @@ function build_board(targetId, gridSize) {
                 y: yOrigin * 50,
                 width: 50,
                 height: 50,
-                index: [i, j]
+                index: [i, j],
+                order: i + j
             });
             xOrigin++;
         }
@@ -33,11 +34,13 @@ function build_board(targetId, gridSize) {
         return d.width;
     }).attr("height", function (d) {
         return d.height;
+    }).attr("index", function (d) {
+        return d.index;
     }).on('click', function () {
         d3.select(this).style("fill", "#CC3300");
     }).style("fill", '#FFF').style("stroke", '#555');
 }
 
-build_board("#board", 6);
+build_board("#board", 10);
 
 },{}]},{},[1]);

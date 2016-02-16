@@ -7,7 +7,8 @@ export default function build_board(targetId, gridSize) {
                 y: yOrigin * 50,
                 width: 50,
                 height: 50,
-                index: [i,j]
+                index: [i,j],
+                order: i + j
             })
             xOrigin++;
         }
@@ -30,6 +31,7 @@ export default function build_board(targetId, gridSize) {
         .attr("y", (d) => d.y )
         .attr("width", (d) => d.width )
         .attr("height", (d) => d.height )
+        .attr("index", (d) => d.index )
         .on('click', function() {
             d3.select(this).style("fill", "#CC3300")
         })
@@ -37,5 +39,5 @@ export default function build_board(targetId, gridSize) {
         .style("stroke", '#555')
 }
 
-build_board("#board", 6);
+build_board("#board", 10);
 
