@@ -167,11 +167,11 @@ function build_board(targetId, gridSize) {
 
     var board = canvas.selectAll(".board").data([gridDefinition]).enter().append("svg:g").attr("class", "board");
 
-    var cells = board.selectAll(".cell").data(gridDefinition).enter().append("svg:rect").attr("x", function (d) {
-        return d.x;
-    }).attr("y", function (d) {
-        return d.y;
-    }).attr("width", function (d) {
+    var cells = board.selectAll(".cell").data(gridDefinition).enter().append("svg:circle").attr("cx", function (d) {
+        return d.x + 25;
+    }).attr("cy", function (d) {
+        return d.y + 25;
+    }).attr("r", 15).attr("width", function (d) {
         return d.width;
     }).attr("height", function (d) {
         return d.height;

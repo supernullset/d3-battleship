@@ -164,9 +164,10 @@ export function build_board(targetId, gridSize) {
 
     let cells = board.selectAll(".cell")
         .data( gridDefinition )
-        .enter().append("svg:rect")
-        .attr("x", (d) => d.x )
-        .attr("y", (d) => d.y )
+        .enter().append("svg:circle")
+        .attr("cx", (d) => d.x + 25 )
+        .attr("cy", (d) => d.y + 25 )
+        .attr("r", 15)
         .attr("width", (d) => d.width )
         .attr("height", (d) => d.height )
         .attr("index", (d) => d.index )
