@@ -44,7 +44,7 @@ function place_ship(ship, occupied) {
 
         // if the guess cell is occupied, try again
         if (!is_viable_point(start_x, start_y)) {
-            break;
+            continue;
         }
 
         var placement_direction = undefined;
@@ -54,7 +54,7 @@ function place_ship(ship, occupied) {
         if (vertical) {
             // Account for vertical placement
             if (start_x + ship_length > 9) {
-                break;
+                continue;
             } else {
                 var is_placeable = true;
                 for (var i = 0; i < ship_length; i++) {
@@ -62,10 +62,7 @@ function place_ship(ship, occupied) {
                         is_placeable = false;
                     }
                 }
-                if (is_placeable == false) {
-
-                    continue;
-                } else {
+                if (is_placeable == true) {
                     for (var i = 0; i < ship_length; i++) {
                         var cell = [start_x + i, start_y].toString();
                         occupied.push(cell);
@@ -75,7 +72,7 @@ function place_ship(ship, occupied) {
             }
 
             if (start_x - ship_length < 0) {
-                break;
+                continue;
             } else {
                 var is_placeable = true;
                 for (var i = 0; i < ship_length; i++) {
@@ -83,9 +80,7 @@ function place_ship(ship, occupied) {
                         is_placeable = false;
                     }
                 }
-                if (is_placeable == false) {
-                    break;
-                } else {
+                if (is_placeable == true) {
                     for (var i = 0; i < ship_length; i++) {
                         var cell = [start_x - i, start_y].toString();
                         occupied.push(cell);
@@ -95,7 +90,7 @@ function place_ship(ship, occupied) {
             }
         } else {
             if (start_y + ship_length > 9) {
-                break;
+                continue;
             } else {
                 var is_placeable = true;
                 for (var i = 0; i < ship_length; i++) {
@@ -103,9 +98,7 @@ function place_ship(ship, occupied) {
                         is_placeable = false;
                     }
                 }
-                if (is_placeable == false) {
-                    continue;
-                } else {
+                if (is_placeable == true) {
                     for (var i = 0; i < ship_length; i++) {
                         var cell = [start_x, start_y + i].toString();
                         occupied.push(cell);
@@ -123,9 +116,7 @@ function place_ship(ship, occupied) {
                         is_placeable = false;
                     }
                 }
-                if (is_placeable == false) {
-                    break;
-                } else {
+                if (is_placeable == true) {
                     for (var i = 0; i < ship_length; i++) {
                         var cell = [start_x, start_y - i].toString();
                         occupied.push(cell);
@@ -144,15 +135,9 @@ function assign_ship_placement(gridSize) {
     var ship_dimensions = [[5, 1], [4, 1], [3, 1], [3, 1], [3, 1]];
     var occupied = [];
 
-    var is_vertical = function is_vertical(ship) {
-        return ship[0] == 1;
-    };
-    var is_horizontal = function is_horizontal(ship) {
-        return !is_vertical(ship);
-    };
-
     ship_dimensions.forEach(function (ship) {
         place_ship(ship, occupied);
+        console.log(ship, occupied.length);
     });
 
     return occupied; //[[5,3], [5,4], [5,5]].map((e) => e.toString())

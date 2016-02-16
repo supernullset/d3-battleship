@@ -34,7 +34,7 @@ export function place_ship(ship, occupied) {
 
         // if the guess cell is occupied, try again
         if (!is_viable_point(start_x, start_y)) {
-            break
+            continue
         }
 
         let placement_direction;
@@ -43,7 +43,7 @@ export function place_ship(ship, occupied) {
         // Search for canidates for placing a ship
         if (vertical) { // Account for vertical placement
             if ((start_x + ship_length) > 9) {
-                break
+                continue
             } else {
                 let is_placeable = true;
                 for (let i=0; i < ship_length; i++) {
@@ -51,10 +51,7 @@ export function place_ship(ship, occupied) {
                         is_placeable = false
                     }
                 }
-                if (is_placeable == false) {
-
-                    continue
-                } else {
+                if (is_placeable == true){
                     for (let i=0; i < ship_length; i++) {
                         let cell = [start_x + i, start_y].toString()
                         occupied.push(cell)
@@ -64,7 +61,7 @@ export function place_ship(ship, occupied) {
             }
 
             if ((start_x - ship_length) < 0) {
-                break
+                continue
             } else {
                 let is_placeable = true;
                 for (let i=0; i < ship_length; i++) {
@@ -72,9 +69,7 @@ export function place_ship(ship, occupied) {
                         is_placeable = false
                     }
                 }
-                if (is_placeable == false) {
-                    break
-                } else {
+                if (is_placeable == true) {
                     for (let i=0; i < ship_length; i++) {
                         let cell = [start_x - i, start_y].toString()
                         occupied.push(cell)
@@ -84,7 +79,7 @@ export function place_ship(ship, occupied) {
             }
         } else {
             if ((start_y + ship_length) > 9) {
-                break
+                continue
             } else {
                 let is_placeable = true;
                 for (let i=0; i < ship_length; i++) {
@@ -92,9 +87,7 @@ export function place_ship(ship, occupied) {
                         is_placeable = false
                     }
                 }
-                if (is_placeable == false) {
-                    continue
-                } else {
+                if (is_placeable == true) {
                     for (let i=0; i < ship_length; i++) {
                         let cell = [start_x, start_y + i].toString()
                         occupied.push(cell)
@@ -112,9 +105,7 @@ export function place_ship(ship, occupied) {
                         is_placeable = false
                     }
                 }
-                if (is_placeable == false) {
-                    break
-                } else {
+                if (is_placeable == true) {
                     for (let i=0; i < ship_length; i++) {
                         let cell = [start_x, start_y - i].toString()
                         occupied.push(cell)
@@ -134,12 +125,9 @@ export function assign_ship_placement(gridSize) {
     let ship_dimensions = [[5, 1], [4, 1], [3, 1], [3, 1], [3, 1]]
     let occupied = []
 
-    let is_vertical = (ship) => ship[0] == 1
-    let is_horizontal = (ship) => !is_vertical(ship)
-
-
     ship_dimensions.forEach((ship) => {
         place_ship(ship, occupied)
+        console.log(ship, occupied.length)
     })
 
     return occupied //[[5,3], [5,4], [5,5]].map((e) => e.toString())
