@@ -97,7 +97,7 @@ export function place_ship(ship, occupied) {
             }
 
             if ((start_y - ship_length) < 0) {
-                break
+                continue
             } else {
                 let is_placeable = true;
                 for (let i=0; i < ship_length; i++) {
